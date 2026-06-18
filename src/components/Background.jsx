@@ -1,29 +1,11 @@
 import { useRef } from 'react';
 import './Background.css';
 import DeskClock from './DeskClock';
+import StereoPlayer from './StereoPlayer';
 import WindowScene from './WindowScene';
 import useTimeOfDay from '../hooks/useTimeOfDay';
+import getZoomOrigin from '../utils/getZoomOrigin';
 import corkPhoto from '../../images/IMG_8876.jpeg';
-
-function getPhotoZoomOrigin(photoBtn) {
-  const camera = photoBtn.closest('.scene-camera');
-  if (!camera) return null;
-
-  const photoRect = photoBtn.getBoundingClientRect();
-  const cameraRect = camera.getBoundingClientRect();
-
-  const originX = photoRect.left + photoRect.width / 2 - cameraRect.left;
-  const originY = photoRect.top + photoRect.height / 2 - cameraRect.top;
-  const centerX = cameraRect.width / 2;
-  const centerY = cameraRect.height / 2;
-
-  return {
-    x: originX,
-    y: originY,
-    translateX: centerX - originX,
-    translateY: centerY - originY,
-  };
-}
 
 const PAGE_LIGHT = {
   SELECT: {
@@ -75,13 +57,13 @@ const STICKY_NOTES = [
   { color: '#ffd4a3', rotate: -2, top: '62%', left: '30%', w: '22%', h: '16%' },
 ];
 
-export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) {
+export default function Background({ page, zoomed, tvOn = true, stereoZoomed, onPhotoClick, onStereoZoom }) {
   const photoBtnRef = useRef(null);
   const light = PAGE_LIGHT[page] || PAGE_LIGHT.SELECT;
   const sky = useTimeOfDay();
 
   const handlePhotoClick = () => {
-    const origin = photoBtnRef.current ? getPhotoZoomOrigin(photoBtnRef.current) : null;
+    const origin = photoBtnRef.current ? getZoomOrigin(photoBtnRef.current) : null;
     onPhotoClick?.(origin);
   };
 
@@ -168,24 +150,7 @@ export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) 
 
       <DeskClock />
 
-      <div className="room__stereo">
-        <div className="room__stereo-unit">
-          <div className="room__speaker room__speaker--left">
-            <div className="room__speaker-cone" />
-          </div>
-          <div className="room__stereo-center">
-            <div className="room__stereo-display" />
-            <div className="room__stereo-deck" />
-            <div className="room__stereo-knobs">
-              <span /><span /><span />
-            </div>
-          </div>
-          <div className="room__speaker room__speaker--right">
-            <div className="room__speaker-cone" />
-          </div>
-        </div>
-        <div className="room__stereo-shelf" />
-      </div>
+      <StereoPlayer stereoZoomed={stereoZoomed} onStereoZoom={onStereoZoom} />
 
       <div className="room__desk">
         <div className="room__desk-top" />

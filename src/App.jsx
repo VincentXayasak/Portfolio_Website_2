@@ -7,29 +7,29 @@ import useSceneScale, { SCENE_HEIGHT, SCENE_WIDTH } from './hooks/useSceneScale'
 import './App.css';
 
 const MENU_ITEMS = ['SOCIALS', 'PROJECTS', 'MUSIC'];
-const PHOTO_ZOOM_MS = 350;
+const ITEM_ZOOM_MS = 350;
 
 export default function App() {
   const [booted, setBooted] = useState(false);
   const [page, setPage] = useState('SELECT');
   const [menuIndex, setMenuIndex] = useState(0);
-  const [muted, setMuted] = useState(true);
   const [zoomed, setZoomed] = useState(false);
   const [photoZoomed, setPhotoZoomed] = useState(false);
-  const [photoZoomOrigin, setPhotoZoomOrigin] = useState({
+  const [stereoZoomed, setStereoZoomed] = useState(false);
+  const [zoomOrigin, setZoomOrigin] = useState({
     x: 326,
     y: 270,
     translateX: 634,
     translateY: 270,
   });
-  const [hideCrtForPhoto, setHideCrtForPhoto] = useState(false);
+  const [hideCrt, setHideCrt] = useState(false);
   const [tvOn, setTvOn] = useState(false);
-  const photoZoomTimerRef = useRef(null);
+  const zoomTimerRef = useRef(null);
 
-  const clearPhotoZoomTimer = useCallback(() => {
-    if (photoZoomTimerRef.current) {
-      clearTimeout(photoZoomTimerRef.current);
-      photoZoomTimerRef.current = null;
+  const clearZoomTimer = useCallback(() => {
+    if (zoomTimerRef.current) {
+      clearTimeout(zoomTimerRef.current);
+      zoomTimerRef.current = null;
     }
   }, []);
 
@@ -42,19 +42,20 @@ export default function App() {
     if (booted) setTvOn(true);
   }, [booted]);
 
-  useEffect(() => () => clearPhotoZoomTimer(), [clearPhotoZoomTimer]);
+  useEffect(() => () => clearZoomTimer(), [clearZoomTimer]);
 
   const scheduleCrtReveal = useCallback(() => {
-    clearPhotoZoomTimer();
-    photoZoomTimerRef.current = setTimeout(() => {
-      setHideCrtForPhoto(false);
-      photoZoomTimerRef.current = null;
-    }, PHOTO_ZOOM_MS);
-  }, [clearPhotoZoomTimer]);
+    clearZoomTimer();
+    zoomTimerRef.current = setTimeout(() => {
+      setHideCrt(false);
+      zoomTimerRef.current = null;
+    }, ITEM_ZOOM_MS);
+  }, [clearZoomTimer]);
 
-  const closePhotoZoom = useCallback(() => {
+  const closeItemZoom = useCallback(() => {
     setPhotoZoomed(false);
-    setHideCrtForPhoto(true);
+    setStereoZoomed(false);
+    setHideCrt(true);
     scheduleCrtReveal();
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
@@ -62,33 +63,50 @@ export default function App() {
   }, [scheduleCrtReveal]);
 
   const openPhotoZoom = useCallback((origin) => {
-    clearPhotoZoomTimer();
+    clearZoomTimer();
     if (origin) {
-      setPhotoZoomOrigin(origin);
+      setZoomOrigin(origin);
     }
+    setStereoZoomed(false);
     setPhotoZoomed(true);
-    setHideCrtForPhoto(true);
+    setHideCrt(true);
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
-  }, [clearPhotoZoomTimer]);
+  }, [clearZoomTimer]);
+
+  const openStereoZoom = useCallback((origin) => {
+    clearZoomTimer();
+    if (origin) {
+      setZoomOrigin(origin);
+    }
+    setPhotoZoomed(false);
+    setStereoZoomed(true);
+    setHideCrt(true);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, [clearZoomTimer]);
 
   const goHome = useCallback(() => {
     setPage('SELECT');
     setMenuIndex(0);
     setZoomed(false);
     setPhotoZoomed(false);
-    setHideCrtForPhoto(false);
-    clearPhotoZoomTimer();
-  }, [clearPhotoZoomTimer]);
+    setStereoZoomed(false);
+    setHideCrt(false);
+    clearZoomTimer();
+  }, [clearZoomTimer]);
+
+  const itemZoomed = photoZoomed || stereoZoomed;
 
   const handleKeyDown = useCallback(
     (event) => {
       if (!booted || !tvOn) return;
 
       if (event.key === 'Escape') {
-        if (photoZoomed) {
-          closePhotoZoom();
+        if (itemZoomed) {
+          closeItemZoom();
           return;
         }
 
@@ -96,7 +114,7 @@ export default function App() {
         return;
       }
 
-      if (photoZoomed) return;
+      if (itemZoomed) return;
 
       if (page === 'SELECT') {
         if (event.key === 'ArrowLeft') {
@@ -110,7 +128,7 @@ export default function App() {
         }
       }
     },
-    [booted, closePhotoZoom, goHome, menuIndex, page, photoZoomed, tvOn]
+    [booted, closeItemZoom, goHome, itemZoomed, menuIndex, page, tvOn]
   );
 
   useEffect(() => {
@@ -139,18 +157,21 @@ export default function App() {
             }}
           >
             <div
-              className={`scene-camera ${photoZoomed ? 'scene-camera--photo-zoom' : ''} ${hideCrtForPhoto ? 'scene-camera--hide-crt' : ''}`}
+              className={`scene-camera ${itemZoomed ? 'scene-camera--item-zoom' : ''} ${hideCrt ? 'scene-camera--hide-crt' : ''}`}
               style={{
-                transformOrigin: `${photoZoomOrigin.x}px ${photoZoomOrigin.y}px`,
-                '--photo-zoom-translate-x': `${photoZoomOrigin.translateX}px`,
-                '--photo-zoom-translate-y': `${photoZoomOrigin.translateY}px`,
+                transformOrigin: `${zoomOrigin.x}px ${zoomOrigin.y}px`,
+                '--item-zoom-translate-x': `${zoomOrigin.translateX}px`,
+                '--item-zoom-translate-y': `${zoomOrigin.translateY}px`,
+                '--item-zoom-scale': stereoZoomed ? 3.25 : 5,
               }}
             >
               <Background
                 zoomed={zoomed}
                 page={page}
                 tvOn={tvOn}
+                stereoZoomed={stereoZoomed}
                 onPhotoClick={openPhotoZoom}
+                onStereoZoom={openStereoZoom}
               />
               <CRTMonitor
                 booted={booted}
@@ -172,26 +193,16 @@ export default function App() {
       </div>
       {booted && (
         <div className="app-hud">
-          <Instructions page={page} photoZoomed={photoZoomed} />
-          <button
-            type="button"
-            className={`mute-btn ${muted ? 'is-muted' : ''}`}
-            onClick={() => setMuted((value) => !value)}
-          >
-            {muted ? 'Unmute' : 'Mute'}
-          </button>
-          {(page !== 'SELECT' || photoZoomed) && (
+          <Instructions page={page} itemZoomed={itemZoomed} />
+          {(page !== 'SELECT' || itemZoomed) && (
             <button
               type="button"
               className="hud-esc-btn"
-              onClick={photoZoomed ? closePhotoZoom : goHome}
-              aria-label={photoZoomed ? 'Zoom out of photo' : 'Back to home'}
+              onClick={itemZoomed ? closeItemZoom : goHome}
+              aria-label={itemZoomed ? 'Zoom out' : 'Back to home'}
             >
               ESC
             </button>
-          )}
-          {!muted && (
-            <div className="hud-audio-hint">♪ ambient hum (visual only)</div>
           )}
         </div>
       )}

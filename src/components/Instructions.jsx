@@ -1,9 +1,9 @@
 import './Instructions.css';
 
-export default function Instructions({ page, photoZoomed = false }) {
+export default function Instructions({ page, itemZoomed = false }) {
   return (
     <div className="instructions">
-      {photoZoomed ? (
+      {itemZoomed ? (
         <div className="instructions__row">
           <span className="instructions__key">ESC</span>
           <span className="instructions__text">zoom out</span>
