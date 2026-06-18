@@ -2,6 +2,7 @@ import './Background.css';
 import DeskClock from './DeskClock';
 import WindowScene from './WindowScene';
 import useTimeOfDay from '../hooks/useTimeOfDay';
+import corkPhoto from '../../images/IMG_8876.jpeg';
 
 const PAGE_LIGHT = {
   SELECT: {
@@ -53,7 +54,7 @@ const STICKY_NOTES = [
   { color: '#ffd4a3', rotate: -2, top: '62%', left: '30%', w: '22%', h: '16%' },
 ];
 
-export default function Background({ page, zoomed, tvOn = true }) {
+export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) {
   const light = PAGE_LIGHT[page] || PAGE_LIGHT.SELECT;
   const sky = useTimeOfDay();
 
@@ -89,7 +90,18 @@ export default function Background({ page, zoomed, tvOn = true }) {
               <span className="room__pin" />
             </div>
           ))}
-          <div className="room__cork-photo" />
+          <button
+            type="button"
+            className="room__cork-photo-btn"
+            onClick={onPhotoClick}
+            aria-label="View graduation photo"
+          >
+            <img
+              src={corkPhoto}
+              alt=""
+              className="room__cork-photo"
+            />
+          </button>
         </div>
         <div className="room__corkboard-frame" />
       </div>

@@ -27,6 +27,34 @@
   overflow: hidden;
 }
 
+.scene-camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 17% 25%;
+  transition: transform var(--slow) ease-in-out;
+  backface-visibility: hidden;
+}
+
+.scene-camera--photo-zoom {
+  transform: scale(5);
+}
+
+.scene-camera--hide-crt .crt-stage {
+  opacity: 0 !important;
+  visibility: hidden;
+  transition: none !important;
+  pointer-events: none;
+}
+
+.scene-camera--hide-crt .room__cork-photo-btn {
+  pointer-events: none;
+}
+
+.scene-camera--hide-crt .room__cork-photo-btn:hover {
+  transform: none;
+  filter: none;
+}
+
 .app-hud {
   position: fixed;
   inset: 0;

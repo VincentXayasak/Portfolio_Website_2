@@ -1,9 +1,14 @@
 import './Instructions.css';
 
-export default function Instructions({ page }) {
+export default function Instructions({ page, photoZoomed = false }) {
   return (
     <div className="instructions">
-      {page === 'SELECT' ? (
+      {photoZoomed ? (
+        <div className="instructions__row">
+          <span className="instructions__key">ESC</span>
+          <span className="instructions__text">zoom out</span>
+        </div>
+      ) : page === 'SELECT' ? (
         <div className="instructions__row">
           <span className="instructions__key">←</span>
           <span className="instructions__key">→</span>

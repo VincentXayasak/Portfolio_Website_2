@@ -6,7 +6,7 @@
   z-index: 100;
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity 0.8s ease, transform var(--slow) ease-in-out;
+  transition: transform var(--slow) ease-in-out;
   pointer-events: none;
   transform-origin: 50% 77%;
 }
@@ -14,6 +14,13 @@
 .crt-stage--visible {
   opacity: 1;
   transform: translateY(0);
+  animation: crt-stage-appear 0.8s ease both;
+}
+
+@keyframes crt-stage-appear {
+  from {
+    opacity: 0;
+  }
 }
 
 .crt-stage--visible.crt-stage--zoomed {
