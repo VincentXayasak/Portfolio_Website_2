@@ -1,0 +1,67 @@
+.room__desk-clock {
+  position: absolute;
+  left: 11%;
+  bottom: 64%;
+  z-index: 4;
+  transform: translateX(-50%) perspective(500px) rotateX(10deg) scale(0.88);
+  transform-origin: bottom center;
+}
+
+.room__desk-clock-body {
+  position: relative;
+  padding: 6px 10px 8px;
+  background: linear-gradient(180deg, #e4ddd0 0%, #c8c0b0 100%);
+  border: 1px solid #a89888;
+  border-radius: 5px 5px 4px 4px;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.room__desk-clock-body::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #444;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.room__desk-clock-screen {
+  margin-top: 5px;
+  padding: 5px 9px;
+  background: #1a1a18;
+  border: 2px inset #333;
+  border-radius: 3px;
+  box-shadow: inset 0 0 7px rgba(0, 0, 0, 0.8);
+}
+
+.room__desk-clock-display {
+  display: block;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  letter-spacing: 0.05em;
+  color: #ff5533;
+  text-shadow: 0 0 6px rgba(255, 85, 51, 0.7);
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.room__desk-clock-feet {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding: 0 5px;
+}
+
+.room__desk-clock-feet span {
+  width: 12px;
+  height: 4px;
+  background: #8a8070;
+  border-radius: 0 0 2px 2px;
+}

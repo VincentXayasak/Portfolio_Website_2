@@ -1,0 +1,126 @@
+.app {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #b8ad9e;
+}
+
+.scene-viewport {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scene-scaler {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.scene-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+.app-hud {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  pointer-events: none;
+}
+
+.mute-btn {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top, 0px));
+  right: max(18px, env(safe-area-inset-right, 0px));
+  z-index: 1501;
+  padding: 8px 16px;
+  font-size: clamp(13px, 1.5vw, 15px);
+  color: var(--main-light);
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  pointer-events: auto;
+  transition: opacity var(--quick), transform var(--quick), background var(--quick);
+}
+
+.mute-btn:hover {
+  transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.mute-btn.is-muted {
+  opacity: 0.55;
+}
+
+.hud-esc-btn {
+  position: fixed;
+  top: calc(max(14px, env(safe-area-inset-top, 0px)) + 46px);
+  right: max(18px, env(safe-area-inset-right, 0px));
+  z-index: 1501;
+  padding: 8px 16px;
+  font-size: clamp(13px, 1.5vw, 15px);
+  color: var(--main-light);
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  pointer-events: auto;
+  transition: opacity var(--quick), transform var(--quick), background var(--quick);
+}
+
+.hud-esc-btn:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.hud-audio-hint {
+  position: fixed;
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1501;
+  padding: 8px 16px;
+  font-size: clamp(12px, 1.5vw, 14px);
+  color: var(--main-light);
+  opacity: 0.85;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  background: #000000;
+}
+
+.boot-text {
+  font-family: 'VT323', monospace;
+  font-size: clamp(1.25rem, 5vw, 2.5rem);
+  letter-spacing: 0.15em;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 12px rgba(79, 195, 255, 0.8);
+}
+
+.boot-line {
+  display: inline;
+}
+
+.boot-line.blink {
+  animation: boot-blink 0.8s step-end infinite;
+}

@@ -1,0 +1,228 @@
+/* viewport sits inside window frame */
+.window-scene__viewport {
+  position: absolute;
+  inset: 6% 6% 12% 6%;
+  overflow: hidden;
+  border-radius: 1px;
+  background: var(--sky-bottom);
+}
+
+.window-scene__sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--sky-top) 0%,
+    var(--sky-mid) 45%,
+    var(--sky-bottom) 100%
+  );
+  transition: background 1.2s ease;
+}
+
+/* ── stars ── */
+.window-scene__stars {
+  position: absolute;
+  inset: 0;
+  opacity: var(--stars-opacity);
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+.window-scene__star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+  animation: star-twinkle 2.5s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ── clouds ── */
+.window-scene__cloud {
+  position: absolute;
+  left: -30%;
+  width: 28%;
+  height: 12%;
+  opacity: var(--clouds-opacity);
+  transform: scale(var(--cloud-scale));
+  transform-origin: center;
+  animation: cloud-drift linear infinite;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+.window-scene__cloud::before,
+.window-scene__cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 50%;
+}
+
+.window-scene__cloud::before {
+  left: 18%;
+  bottom: 0;
+  width: 55%;
+  height: 70%;
+  box-shadow:
+    -14px 6px 0 10px rgba(255, 255, 255, 0.82),
+    22px 3px 0 14px rgba(255, 255, 255, 0.9);
+}
+
+.window-scene__cloud::after {
+  right: 8%;
+  bottom: 18%;
+  width: 35%;
+  height: 55%;
+}
+
+@keyframes cloud-drift {
+  0% {
+    transform: translateX(0) scale(var(--cloud-scale));
+  }
+  100% {
+    transform: translateX(420%) scale(var(--cloud-scale));
+  }
+}
+
+/* ── sun ── */
+.window-scene__sun {
+  position: absolute;
+  left: var(--sun-x);
+  top: var(--sun-y);
+  width: 16%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  opacity: var(--sun-opacity);
+  transition: opacity 1.2s ease, left 1.2s ease, top 1.2s ease;
+  pointer-events: none;
+}
+
+.window-scene__sun-core {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fffef0, #ffd54a 55%, #ffb300);
+  box-shadow: 0 0 18px rgba(255, 210, 60, 0.75);
+  animation: sun-pulse 4s ease-in-out infinite;
+}
+
+.window-scene__sun-rays {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 220, 80, 0.35) 0 8deg,
+    transparent 8deg 18deg
+  );
+  animation: sun-spin 30s linear infinite;
+}
+
+@keyframes sun-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes sun-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── moon ── */
+.window-scene__moon {
+  position: absolute;
+  left: var(--moon-x);
+  top: var(--moon-y);
+  width: 14%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  opacity: var(--moon-opacity);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff8e0, #d4c890);
+  box-shadow: 0 0 14px rgba(255, 248, 200, 0.45);
+  transition: opacity 1.2s ease, left 1.2s ease, top 1.2s ease;
+  pointer-events: none;
+}
+
+.window-scene__moon::after {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 28%;
+  width: 18%;
+  height: 18%;
+  border-radius: 50%;
+  background: rgba(180, 170, 140, 0.35);
+  box-shadow:
+    35% 40% 0 0 rgba(180, 170, 140, 0.2),
+    60% 15% 0 0 rgba(180, 170, 140, 0.15);
+}
+
+/* ── birds ── */
+.window-scene__bird {
+  position: absolute;
+  left: -12%;
+  width: 14px;
+  height: 10px;
+  opacity: var(--birds-opacity);
+  transform: scale(var(--bird-scale));
+  animation: bird-fly linear infinite;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+.window-scene__bird-wing {
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 3px;
+  border-top: 2px solid #2a2a2a;
+  border-radius: 50% 50% 0 0;
+}
+
+.window-scene__bird-wing--left {
+  left: 0;
+  transform-origin: right center;
+  animation: wing-flap 0.35s ease-in-out infinite;
+}
+
+.window-scene__bird-wing--right {
+  right: 0;
+  transform-origin: left center;
+  animation: wing-flap 0.35s ease-in-out infinite reverse;
+}
+
+@keyframes bird-fly {
+  0% {
+    transform: translateX(0) scale(var(--bird-scale));
+  }
+  100% {
+    transform: translateX(900%) scale(var(--bird-scale));
+  }
+}
+
+@keyframes wing-flap {
+  0%,
+  100% {
+    transform: rotate(-18deg);
+  }
+  50% {
+    transform: rotate(22deg);
+  }
+}

@@ -1,0 +1,132 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --main-light: #f7f7f7;
+  --main-dark: #010101;
+  --accent-blue: #3c5f93;
+  --accent-cyan: #9fddf9;
+  --neon-blue: #00c6ff;
+  --neon-purple: #7b5cff;
+  --warm-lamp: #ffd89a;
+  --screen-glow: #4fc3ff;
+  --quick: 0.12s;
+  --slow: 0.35s;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Share Tech Mono', monospace;
+  background: #b8ad9e;
+  color: var(--main-light);
+  cursor: default;
+  user-select: none;
+}
+
+button {
+  font: inherit;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus {
+  outline: none;
+}
+
+@keyframes flicker {
+  0%,
+  10%,
+  11%,
+  40%,
+  41%,
+  65%,
+  68.5%,
+  100% {
+    opacity: 1;
+  }
+  10.5%,
+  40.5% {
+    opacity: 0.82;
+  }
+  65.5%,
+  67%,
+  68% {
+    opacity: 0;
+  }
+  67.5% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes scanline {
+  0%,
+  95% {
+    bottom: 97%;
+  }
+  100% {
+    bottom: 0;
+  }
+}
+
+@keyframes glitch {
+  2%,
+  64% {
+    transform: translate(2px, 0) skew(0deg);
+  }
+  4%,
+  60% {
+    transform: translate(-2px, 0) skew(0deg);
+  }
+  62% {
+    transform: translate(0, 0) skew(3deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes float-dust {
+  0% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(-18px);
+    opacity: 0;
+  }
+}
+
+@keyframes boot-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
