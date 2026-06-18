@@ -29,20 +29,20 @@ const PAGE_LIGHT = {
 
 const BOOKS_BY_SHELF = [
   [
-    { spine: '#7a3344', edge: '#e8dcc8', band: '#c9a84c', height: 88, width: 24 },
-    { spine: '#2f4f62', edge: '#f0ebe0', band: '#8ab4c4', height: 74, width: 20 },
-    { spine: '#3f5a32', edge: '#ede5d4', band: '#b8956a', height: 92, width: 26 },
-    { spine: '#4a3868', edge: '#e6e0d4', band: '#d4af37', height: 68, width: 18 },
+    { title: 'Machine Learning', label: 'Machine Learning', spine: '#7a3344', edge: '#e8dcc8', band: '#c9a84c', height: 88, width: 28 },
+    { title: 'Software Eng', label: 'Software Eng', spine: '#2f4f62', edge: '#f0ebe0', band: '#8ab4c4', height: 74, width: 24 },
+    { title: 'Python', label: 'Python', spine: '#3f5a32', edge: '#ede5d4', band: '#b8956a', height: 92, width: 30 },
+    { title: 'Comp Security', label: 'Comp Security', spine: '#4a3868', edge: '#e6e0d4', band: '#d4af37', height: 68, width: 22 },
   ],
   [
-    { spine: '#8b4513', edge: '#f2ead8', band: '#5c3317', height: 82, width: 22 },
-    { spine: '#1e3a5f', edge: '#eae4d8', band: '#c0392b', height: 78, width: 19 },
-    { spine: '#5c4033', edge: '#e8dfd0', band: '#8fbc8f', height: 90, width: 25 },
-    { spine: '#6b3a5c', edge: '#f0e8dc', band: '#e8b4b8', height: 72, width: 17 },
+    { title: 'Java', label: 'Java', spine: '#8b4513', edge: '#f2ead8', band: '#5c3317', height: 82, width: 26 },
+    { title: 'C++', label: 'C++', spine: '#1e3a5f', edge: '#eae4d8', band: '#c0392b', height: 78, width: 24 },
+    { title: 'LLM Eval', label: 'LLM Eval', spine: '#5c4033', edge: '#e8dfd0', band: '#8fbc8f', height: 90, width: 28 },
+    { title: 'Docker', label: 'Docker', spine: '#6b3a5c', edge: '#f0e8dc', band: '#e8b4b8', height: 72, width: 22 },
   ],
   [
-    { spine: '#334155', edge: '#ece7dc', band: '#94a3b8', height: 80, width: 21 },
-    { spine: '#7c2d12', edge: '#f0e6d8', band: '#fdba74', height: 86, width: 23 },
+    { title: 'Kubernetes', label: 'Kubernetes', spine: '#334155', edge: '#ece7dc', band: '#94a3b8', height: 80, width: 26 },
+    { title: 'RAG & Fine-Tuning', label: 'RAG & Fine-Tuning', spine: '#7c2d12', edge: '#f0e6d8', band: '#fdba74', height: 86, width: 28 },
   ],
 ];
 
@@ -73,6 +73,7 @@ export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) 
       />
 
       <div className="room__corkboard">
+        <div className="room__corkboard-frame" />
         <div className="room__corkboard-surface">
           {STICKY_NOTES.map((note, index) => (
             <div
@@ -103,7 +104,6 @@ export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) 
             />
           </button>
         </div>
-        <div className="room__corkboard-frame" />
       </div>
 
       <div className="room__bookshelf">
@@ -114,6 +114,7 @@ export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) 
                 <div
                   key={i}
                   className="room__book"
+                  title={book.title}
                   style={{
                     '--book-spine': book.spine,
                     '--book-edge': book.edge,
@@ -122,7 +123,9 @@ export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) 
                     width: `${book.width}%`,
                     transform: `rotate(${(i % 2 === 0 ? -1 : 1) * 0.6}deg)`,
                   }}
-                />
+                >
+                  <span className="room__book-title">{book.label}</span>
+                </div>
               ))}
               {shelf === 2 && (
                 <>
