@@ -1,6 +1,6 @@
 const ITEMS = [
   { id: 'SOCIALS', icon: '◎', label: 'SOCIALS' },
-  { id: 'SHOP', icon: '▣', label: 'SHOP' },
+  { id: 'PROJECTS', icon: '▣', label: 'PROJECTS' },
   { id: 'MUSIC', icon: '♫', label: 'MUSIC' },
 ];
 

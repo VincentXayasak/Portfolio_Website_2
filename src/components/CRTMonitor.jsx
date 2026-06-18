@@ -1,13 +1,13 @@
 import SelectScreen from './screens/SelectScreen';
 import SocialsScreen from './screens/SocialsScreen';
-import ShopScreen from './screens/ShopScreen';
+import ProjectsScreen from './screens/ProjectsScreen';
 import MusicScreen from './screens/MusicScreen';
 import './CRTMonitor.css';
 
 const SCREENS = {
   SELECT: SelectScreen,
   SOCIALS: SocialsScreen,
-  SHOP: ShopScreen,
+  PROJECTS: ProjectsScreen,
   MUSIC: MusicScreen,
 };
 

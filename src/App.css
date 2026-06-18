@@ -30,13 +30,12 @@
 .scene-camera {
   position: absolute;
   inset: 0;
-  transform-origin: 17% 25%;
   transition: transform var(--slow) ease-in-out;
   backface-visibility: hidden;
 }
 
 .scene-camera--photo-zoom {
-  transform: scale(5);
+  transform: translate(var(--photo-zoom-translate-x, 0px), var(--photo-zoom-translate-y, 0px)) scale(5);
 }
 
 .scene-camera--hide-crt .crt-stage {

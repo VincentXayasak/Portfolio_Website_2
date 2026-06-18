@@ -6,7 +6,7 @@ import Instructions from './components/Instructions';
 import useSceneScale, { SCENE_HEIGHT, SCENE_WIDTH } from './hooks/useSceneScale';
 import './App.css';
 
-const MENU_ITEMS = ['SOCIALS', 'SHOP', 'MUSIC'];
+const MENU_ITEMS = ['SOCIALS', 'PROJECTS', 'MUSIC'];
 const PHOTO_ZOOM_MS = 350;
 
 export default function App() {
@@ -16,6 +16,12 @@ export default function App() {
   const [muted, setMuted] = useState(true);
   const [zoomed, setZoomed] = useState(false);
   const [photoZoomed, setPhotoZoomed] = useState(false);
+  const [photoZoomOrigin, setPhotoZoomOrigin] = useState({
+    x: 326,
+    y: 270,
+    translateX: 634,
+    translateY: 270,
+  });
   const [hideCrtForPhoto, setHideCrtForPhoto] = useState(false);
   const [tvOn, setTvOn] = useState(false);
   const photoZoomTimerRef = useRef(null);
@@ -55,8 +61,11 @@ export default function App() {
     }
   }, [scheduleCrtReveal]);
 
-  const openPhotoZoom = useCallback(() => {
+  const openPhotoZoom = useCallback((origin) => {
     clearPhotoZoomTimer();
+    if (origin) {
+      setPhotoZoomOrigin(origin);
+    }
     setPhotoZoomed(true);
     setHideCrtForPhoto(true);
     if (document.activeElement instanceof HTMLElement) {
@@ -131,6 +140,11 @@ export default function App() {
           >
             <div
               className={`scene-camera ${photoZoomed ? 'scene-camera--photo-zoom' : ''} ${hideCrtForPhoto ? 'scene-camera--hide-crt' : ''}`}
+              style={{
+                transformOrigin: `${photoZoomOrigin.x}px ${photoZoomOrigin.y}px`,
+                '--photo-zoom-translate-x': `${photoZoomOrigin.translateX}px`,
+                '--photo-zoom-translate-y': `${photoZoomOrigin.translateY}px`,
+              }}
             >
               <Background
                 zoomed={zoomed}

@@ -1,8 +1,29 @@
+import { useRef } from 'react';
 import './Background.css';
 import DeskClock from './DeskClock';
 import WindowScene from './WindowScene';
 import useTimeOfDay from '../hooks/useTimeOfDay';
 import corkPhoto from '../../images/IMG_8876.jpeg';
+
+function getPhotoZoomOrigin(photoBtn) {
+  const camera = photoBtn.closest('.scene-camera');
+  if (!camera) return null;
+
+  const photoRect = photoBtn.getBoundingClientRect();
+  const cameraRect = camera.getBoundingClientRect();
+
+  const originX = photoRect.left + photoRect.width / 2 - cameraRect.left;
+  const originY = photoRect.top + photoRect.height / 2 - cameraRect.top;
+  const centerX = cameraRect.width / 2;
+  const centerY = cameraRect.height / 2;
+
+  return {
+    x: originX,
+    y: originY,
+    translateX: centerX - originX,
+    translateY: centerY - originY,
+  };
+}
 
 const PAGE_LIGHT = {
   SELECT: {
@@ -15,7 +36,7 @@ const PAGE_LIGHT = {
     window: 'rgba(120, 160, 230, 0.2)',
     accent: '#7ec8ff',
   },
-  SHOP: {
+  PROJECTS: {
     monitor: 'rgba(255, 210, 140, 0.22)',
     window: 'rgba(160, 150, 200, 0.16)',
     accent: '#ffd89a',
@@ -55,8 +76,14 @@ const STICKY_NOTES = [
 ];
 
 export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) {
+  const photoBtnRef = useRef(null);
   const light = PAGE_LIGHT[page] || PAGE_LIGHT.SELECT;
   const sky = useTimeOfDay();
+
+  const handlePhotoClick = () => {
+    const origin = photoBtnRef.current ? getPhotoZoomOrigin(photoBtnRef.current) : null;
+    onPhotoClick?.(origin);
+  };
 
   return (
     <div className={`room ${zoomed ? 'room--zoomed' : ''} ${tvOn ? '' : 'room--tv-off'}`}>
@@ -92,9 +119,10 @@ export default function Background({ page, zoomed, tvOn = true, onPhotoClick }) 
             </div>
           ))}
           <button
+            ref={photoBtnRef}
             type="button"
             className="room__cork-photo-btn"
-            onClick={onPhotoClick}
+            onClick={handlePhotoClick}
             aria-label="View graduation photo"
           >
             <img
