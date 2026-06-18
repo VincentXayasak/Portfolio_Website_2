@@ -35,7 +35,7 @@ export default function CRTMonitor({
         <div className="crt-tv__cabinet">
           <div className="crt-tv__body">
             <div className="crt-tv__screen-section">
-              <div className="crt-tv__brand">RETRO · VISION</div>
+              <div className="crt-tv__brand">PORTFOLIO TV</div>
               <div className="crt-monitor__screen-wrap">
                 <div className="crt-monitor__screen">
                   {tvOn && (

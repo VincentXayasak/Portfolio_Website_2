@@ -7,7 +7,7 @@ const ITEMS = [
 export default function SelectScreen({ menuIndex, onMenuSelect, onMenuHover }) {
   return (
     <div className="screen">
-      <h1 className="screen__title glitch-text">WAKE UP</h1>
+      <h1 className="screen__title glitch-text">Vincent Xayasak</h1>
       <p className="screen__subtitle">select a channel</p>
       <div className="menu-grid">
         {ITEMS.map((item, index) => (
