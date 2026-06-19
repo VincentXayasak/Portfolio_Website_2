@@ -31,6 +31,8 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
   const stereoRef = useRef(null);
   const audioRef = useRef(null);
   const spawnTimerRef = useRef(null);
+  const trackIndexRef = useRef(0);
+  const skipTrackEffectRef = useRef(false);
   const [trackIndex, setTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
@@ -39,6 +41,8 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
   const [driftNoteIds, setDriftNoteIds] = useState(() => new Set());
 
   const currentTrack = TRACKS[trackIndex] ?? null;
+
+  trackIndexRef.current = trackIndex;
 
   const getSpeakerOrigins = useCallback(() => {
     const stereo = stereoRef.current;
@@ -102,7 +106,26 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
       setHasPlayed(true);
     };
     const handlePause = () => setIsPlaying(false);
-    const handleEnded = () => setIsPlaying(false);
+    const handleEnded = () => {
+      if (TRACKS.length === 0) {
+        setIsPlaying(false);
+        return;
+      }
+
+      const nextIndex = (trackIndexRef.current + 1) % TRACKS.length;
+      const nextTrack = TRACKS[nextIndex];
+      const audio = audioRef.current;
+
+      if (!audio || !nextTrack) {
+        setIsPlaying(false);
+        return;
+      }
+
+      skipTrackEffectRef.current = true;
+      setTrackIndex(nextIndex);
+      audio.src = nextTrack.url;
+      audio.play().catch(() => setIsPlaying(false));
+    };
 
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
@@ -151,6 +174,11 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
   }, [isPlaying]);
 
   useEffect(() => {
+    if (skipTrackEffectRef.current) {
+      skipTrackEffectRef.current = false;
+      return;
+    }
+
     const audio = audioRef.current;
     if (!audio || !currentTrack) return;
     if (audio.paused) return;
