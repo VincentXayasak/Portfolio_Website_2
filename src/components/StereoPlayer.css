@@ -1,0 +1,31 @@
+.stereo-notes-portal {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1200;
+}
+
+.stereo-note {
+  position: fixed;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: #c8ffe0;
+  text-shadow:
+    0 0 10px rgba(100, 255, 160, 1),
+    0 0 22px rgba(60, 220, 120, 0.85),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition:
+    transform 2.4s ease-out,
+    opacity 2.4s ease-out;
+  will-change: transform, opacity;
+}
+
+.stereo-note.is-live {
+  opacity: 1;
+}
+
+.stereo-note.is-drift {
+  opacity: 0;
+}
