@@ -51,12 +51,12 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
     const rect = stereo.getBoundingClientRect();
     return {
       left: {
-        x: rect.left + rect.width * 0.14,
-        y: rect.top + rect.height * 0.46,
+        x: rect.left + rect.width * 0.16,
+        y: rect.top + rect.height * 0.58,
       },
       right: {
-        x: rect.right - rect.width * 0.14,
-        y: rect.top + rect.height * 0.46,
+        x: rect.right - rect.width * 0.16,
+        y: rect.top + rect.height * 0.58,
       },
     };
   }, []);
@@ -262,11 +262,17 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
     <>
       {notesPortal}
       <div className="room__stereo" ref={stereoRef}>
+        <div className="room__stereo-handle" aria-hidden="true" />
         <div className="room__stereo-unit">
           <div className="room__speaker room__speaker--left">
+            <div className="room__speaker-grille" />
+            <div className="room__speaker-tweeter" />
             <div className="room__speaker-cone" />
           </div>
           <div className="room__stereo-center">
+            <div className="room__stereo-badge" aria-hidden="true">
+              STEREO
+            </div>
             <div className={`room__stereo-display ${stereoZoomed ? 'room__stereo-display--active' : ''}`}>
               {stereoZoomed ? (
                 <>
@@ -308,9 +314,12 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
                   onClick={handleOpenZoom}
                   aria-label="Open stereo player"
                 >
-                  CLICK HERE
+                  MUSIC
                 </button>
               )}
+            </div>
+            <div className="room__stereo-cassette" aria-hidden="true">
+              <span className="room__stereo-cassette-window" />
             </div>
             <div className="room__stereo-deck">
               <button
@@ -328,11 +337,13 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
                 disabled={!stereoZoomed}
               />
             </div>
-            <div className="room__stereo-knobs">
+            <div className="room__stereo-knobs" aria-hidden="true">
               <span /><span /><span />
             </div>
           </div>
           <div className="room__speaker room__speaker--right">
+            <div className="room__speaker-grille" />
+            <div className="room__speaker-tweeter" />
             <div className="room__speaker-cone" />
           </div>
         </div>

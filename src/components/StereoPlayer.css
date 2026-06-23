@@ -10,10 +10,10 @@
   position: fixed;
   font-size: clamp(28px, 3.2vw, 44px);
   line-height: 1;
-  color: #c8ffe0;
+  color: #ffd080;
   text-shadow:
-    0 0 10px rgba(100, 255, 160, 1),
-    0 0 22px rgba(60, 220, 120, 0.85),
+    0 0 10px rgba(255, 180, 60, 1),
+    0 0 22px rgba(255, 140, 40, 0.85),
     0 2px 6px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition:
@@ -28,4 +28,395 @@
 
 .stereo-note.is-drift {
   opacity: 0;
+}
+
+/* ── retro boombox ── */
+.room__stereo {
+  position: absolute;
+  right: 3.5%;
+  bottom: 24%;
+  width: 22%;
+  height: 28%;
+  z-index: 6;
+  overflow: visible;
+}
+
+.room__stereo-handle {
+  position: absolute;
+  top: 0;
+  left: 18%;
+  width: 64%;
+  height: 11%;
+  border: 3px solid #2a2a2a;
+  border-bottom: none;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(180deg, #3a3a3a 0%, #1e1e1e 55%, #141414 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+.room__stereo-unit {
+  position: absolute;
+  bottom: 5%;
+  left: 0;
+  width: 100%;
+  height: 86%;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  overflow: visible;
+  background: linear-gradient(180deg, #222 0%, #111 40%, #0a0a0a 100%);
+  border: 2px solid #333;
+  border-radius: 4px 4px 6px 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 6px 14px rgba(0, 0, 0, 0.45),
+    0 2px 0 #444;
+}
+
+.room__stereo-shelf {
+  position: absolute;
+  bottom: 0;
+  left: -5%;
+  width: 110%;
+  height: 6%;
+  background: linear-gradient(180deg, #7a5540, #5c4030);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.room__speaker {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+  border-right: 1px solid #2a2a2a;
+  display: grid;
+  place-items: center;
+}
+
+.room__speaker--right {
+  border-right: none;
+  border-left: 1px solid #2a2a2a;
+}
+
+.room__speaker-grille {
+  position: absolute;
+  inset: 6% 8%;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 3px,
+      rgba(0, 0, 0, 0.55) 3px,
+      rgba(0, 0, 0, 0.55) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 3px,
+      rgba(0, 0, 0, 0.35) 3px,
+      rgba(0, 0, 0, 0.35) 4px
+    );
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.7;
+}
+
+.room__speaker-tweeter {
+  position: absolute;
+  top: 14%;
+  width: 22%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #888, #444 55%, #222);
+  box-shadow:
+    inset 0 0 4px rgba(0, 0, 0, 0.7),
+    0 0 0 2px #333;
+  z-index: 1;
+}
+
+.room__speaker-cone {
+  position: absolute;
+  bottom: 12%;
+  width: 62%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #666 0%, #333 45%, #1a1a1a 75%, #0a0a0a 100%);
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 0 3px #2a2a2a,
+    0 0 0 5px #1a1a1a;
+  z-index: 2;
+}
+
+.room__stereo-center {
+  flex: 1.35;
+  background: linear-gradient(180deg, #c8c4bc 0%, #a8a49c 35%, #989490 100%);
+  border-left: 1px solid #666;
+  border-right: 1px solid #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5% 5% 4%;
+  gap: 5%;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.room__stereo-badge {
+  font-family: 'VT323', monospace;
+  font-size: clamp(7px, 0.9vw, 11px);
+  letter-spacing: 0.28em;
+  color: #222;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.room__stereo-display {
+  width: 88%;
+  height: 16%;
+  background: #0a1810;
+  border: 2px solid #222;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 8px rgba(0, 255, 80, 0.12),
+    inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.room__stereo-display-btn {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: 'VT323', monospace;
+  font-size: clamp(9px, 1.1vw, 13px);
+  color: #44ff66;
+  text-align: center;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: color var(--quick), text-shadow var(--quick);
+}
+
+.room__stereo-display-btn:hover {
+  color: #88ffaa;
+  text-shadow: 0 0 6px rgba(68, 255, 102, 0.6);
+}
+
+.room__stereo-display-btn--track {
+  font-size: clamp(7px, 0.85vw, 10px);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 4px;
+}
+
+.room__stereo-display-btn:focus {
+  outline: none;
+}
+
+.room__stereo-display--active {
+  gap: 2%;
+  padding: 0 2%;
+}
+
+.room__stereo-track {
+  flex: 1;
+  min-width: 0;
+  font-family: 'VT323', monospace;
+  font-size: clamp(8px, 1vw, 11px);
+  color: #44ff66;
+  text-align: center;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.room__stereo-nav {
+  flex-shrink: 0;
+  width: 18%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: 'VT323', monospace;
+  font-size: clamp(12px, 1.4vw, 16px);
+  color: #44ff66;
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--quick);
+}
+
+.room__stereo-nav:hover:not(:disabled) {
+  color: #88ffaa;
+}
+
+.room__stereo-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.room__stereo-nav:focus {
+  outline: none;
+}
+
+.room__stereo-cassette {
+  width: 82%;
+  height: 13%;
+  background: linear-gradient(180deg, #1a1a1a, #0a0a0a);
+  border: 1px solid #444;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
+  flex-shrink: 0;
+}
+
+.room__stereo-cassette-window {
+  width: 58%;
+  height: 52%;
+  background: linear-gradient(180deg, #3a2818 0%, #1a1008 100%);
+  border: 1px solid #333;
+  border-radius: 1px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+.room__stereo-deck {
+  width: 88%;
+  height: 20%;
+  background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+  border-radius: 3px;
+  border: 1px solid #444;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10%;
+  padding: 0 8%;
+  flex-shrink: 0;
+}
+
+.room__stereo-btn {
+  width: 32%;
+  height: 72%;
+  padding: 0;
+  border: 2px solid #555;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #3a3a3a, #222);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2px 3px rgba(0, 0, 0, 0.35);
+  transition: border-color var(--quick), background var(--quick), box-shadow var(--quick);
+}
+
+.room__stereo-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.room__stereo-btn:not(:disabled):hover {
+  border-color: #888;
+  background: linear-gradient(180deg, #4a4a4a, #2a2a2a);
+}
+
+.room__stereo-btn:focus {
+  outline: none;
+}
+
+.room__stereo-btn--play.is-active {
+  border-color: #cc3333;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 8px rgba(204, 51, 51, 0.45);
+}
+
+.room__stereo-btn--play::before {
+  content: '';
+  width: 0;
+  height: 0;
+  margin-left: 3px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #ccc;
+}
+
+.room__stereo-btn--play:not(:disabled):hover::before {
+  border-left-color: #eee;
+}
+
+.room__stereo-btn--play.is-active::before {
+  border-left-color: #ff6666;
+}
+
+.room__stereo-btn--pause::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  background:
+    linear-gradient(90deg, #ccc 0 35%, transparent 35% 65%, #ccc 65% 100%);
+}
+
+.room__stereo-btn--pause:not(:disabled):hover::before {
+  background:
+    linear-gradient(90deg, #eee 0 35%, transparent 35% 65%, #eee 65% 100%);
+}
+
+.room__stereo-knobs {
+  display: flex;
+  gap: 14%;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.room__stereo-knobs span {
+  width: clamp(10px, 1.2vw, 14px);
+  height: clamp(10px, 1.2vw, 14px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #eee, #aaa 50%, #666);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.room__stereo-knobs span::after {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: 2px;
+  height: 30%;
+  background: #333;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+
+.scene-camera--item-zoom .room__stereo-display-btn,
+.scene-camera--item-zoom .room__stereo-nav,
+.scene-camera--item-zoom .room__stereo-btn {
+  pointer-events: auto;
+}
+
+.scene-camera--hide-crt .room__stereo-display-btn {
+  pointer-events: auto;
 }
