@@ -183,10 +183,10 @@ export default function App() {
     <div className="app">
       <div className="scene-viewport">
         <div
-          className="scene-scaler"
+          className={`scene-scaler ${hasVerticalBleed ? 'scene-scaler--vertical-bleed' : ''}`}
           style={{
             width: SCENE_WIDTH * scale,
-            height: SCENE_HEIGHT * scale,
+            height: hasVerticalBleed ? '100%' : SCENE_HEIGHT * scale,
           }}
         >
           <div
@@ -194,6 +194,7 @@ export default function App() {
             style={{
               width: SCENE_WIDTH,
               height: SCENE_HEIGHT,
+              top: hasVerticalBleed ? `calc(50% - ${(SCENE_HEIGHT * scale) / 2}px)` : 0,
               transform: `scale(${scale})`,
             }}
           >
