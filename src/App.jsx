@@ -217,6 +217,9 @@ export default function App() {
       </div>
       {booted && (
         <div className="app-hud">
+          <p className="copyright-notice" aria-label="Copyright notice">
+            © 2026 Vincent Xayasak. All rights reserved.
+          </p>
           <Instructions page={page} itemZoomed={itemZoomed} contactFormOpen={contactFormOpen} />
           {(page !== 'SELECT' || itemZoomed || contactFormOpen) && (
             <button

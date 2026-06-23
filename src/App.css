@@ -61,6 +61,25 @@
   pointer-events: none;
 }
 
+.copyright-notice {
+  position: fixed;
+  bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1501;
+  margin: 0;
+  padding: 6px 12px;
+  font-size: clamp(10px, 1.2vw, 12px);
+  letter-spacing: 0.04em;
+  color: var(--main-light);
+  opacity: 0.75;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
 .hud-esc-btn {
   position: fixed;
   top: max(14px, env(safe-area-inset-top, 0px));
