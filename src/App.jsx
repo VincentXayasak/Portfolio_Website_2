@@ -209,7 +209,7 @@ export default function App() {
       {!booted && (
         <div className="boot-overlay">
           <div className="boot-text">
-            <span className="boot-line">INITIALIZING SYSTEM...</span>
+            <span className="boot-line">INITIALIZING PORTFOLIO...</span>
             <span className="boot-line blink">_</span>
           </div>
         </div>
