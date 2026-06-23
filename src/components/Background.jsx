@@ -13,7 +13,7 @@ const PAGE_LIGHT = {
     window: 'rgba(140, 170, 220, 0.18)',
     accent: '#8cb4ff',
   },
-  SOCIALS: {
+  ABOUT: {
     monitor: 'rgba(100, 200, 255, 0.32)',
     window: 'rgba(120, 160, 230, 0.2)',
     accent: '#7ec8ff',
@@ -23,7 +23,7 @@ const PAGE_LIGHT = {
     window: 'rgba(160, 150, 200, 0.16)',
     accent: '#ffd89a',
   },
-  MUSIC: {
+  SOCIALS: {
     monitor: 'rgba(180, 140, 255, 0.26)',
     window: 'rgba(150, 130, 210, 0.18)',
     accent: '#c4a8ff',

@@ -1,7 +1,7 @@
 const ITEMS = [
-  { id: 'SOCIALS', icon: '◎', label: 'SOCIALS' },
+  { id: 'ABOUT', icon: '◈', label: 'ABOUT' },
   { id: 'PROJECTS', icon: '▣', label: 'PROJECTS' },
-  { id: 'MUSIC', icon: '♫', label: 'MUSIC' },
+  { id: 'SOCIALS', icon: '◎', label: 'SOCIALS' },
 ];
 
 export default function SelectScreen({ menuIndex, onMenuSelect, onMenuHover }) {

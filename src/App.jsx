@@ -6,7 +6,7 @@ import Instructions from './components/Instructions';
 import useSceneScale, { SCENE_HEIGHT, SCENE_WIDTH } from './hooks/useSceneScale';
 import './App.css';
 
-const MENU_ITEMS = ['SOCIALS', 'PROJECTS', 'MUSIC'];
+const MENU_ITEMS = ['ABOUT', 'PROJECTS', 'SOCIALS'];
 const ITEM_ZOOM_MS = 350;
 
 export default function App() {

@@ -1,14 +1,14 @@
 import SelectScreen from './screens/SelectScreen';
-import SocialsScreen from './screens/SocialsScreen';
+import AboutScreen from './screens/AboutScreen';
 import ProjectsScreen from './screens/ProjectsScreen';
-import MusicScreen from './screens/MusicScreen';
+import SocialsScreen from './screens/SocialsScreen';
 import './CRTMonitor.css';
 
 const SCREENS = {
   SELECT: SelectScreen,
-  SOCIALS: SocialsScreen,
+  ABOUT: AboutScreen,
   PROJECTS: ProjectsScreen,
-  MUSIC: MusicScreen,
+  SOCIALS: SocialsScreen,
 };
 
 export default function CRTMonitor({
