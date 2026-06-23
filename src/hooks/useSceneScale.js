@@ -7,12 +7,11 @@ export function computeSceneScale(width, height) {
   const widthScale = width / SCENE_WIDTH;
   const heightScale = height / SCENE_HEIGHT;
   const coverScale = Math.max(widthScale, heightScale);
-  const isNarrowPortrait = width < 768 && width < height;
+  const isPortrait = width < height;
 
-  if (isNarrowPortrait) {
-    // Show more of the room on portrait phones without shrinking the scene too much.
-    const fitWidthScale = widthScale;
-    return Math.max(fitWidthScale, coverScale * 0.5) || 0.1;
+  if (isPortrait) {
+    // Fit full scene width so side elements (corkboard, stereo) stay on screen.
+    return widthScale > 0 ? widthScale : 0.1;
   }
 
   return coverScale > 0 ? coverScale : 0.1;
