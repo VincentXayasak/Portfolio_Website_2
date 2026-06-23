@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import './Background.css';
 import DeskClock from './DeskClock';
-import RoomDog from './RoomDog';
 import StereoPlayer from './StereoPlayer';
 import WindowScene from './WindowScene';
 import useTimeOfDay from '../hooks/useTimeOfDay';
@@ -190,8 +189,6 @@ export default function Background({
           </g>
         </svg>
       </div>
-
-      <RoomDog />
 
       <div className="room__corkboard">
         <div className="room__corkboard-frame" />
