@@ -961,3 +961,14 @@
   opacity: 0.5;
   text-align: right;
 }
+
+@media (max-width: 767px) {
+  .menu-card {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  .menu-card.is-active {
+    transform: scale(1.02);
+  }
+}

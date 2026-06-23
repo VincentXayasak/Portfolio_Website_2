@@ -5,6 +5,7 @@ import CRTMonitor from './components/CRTMonitor';
 import Scanlines from './components/Scanlines';
 import Instructions from './components/Instructions';
 import useSceneScale, { SCENE_HEIGHT, SCENE_WIDTH } from './hooks/useSceneScale';
+import getZoomOrigin from './utils/getZoomOrigin';
 import './App.css';
 
 const MENU_ITEMS = ['ABOUT', 'PROJECTS', 'SOCIALS'];
@@ -159,7 +160,24 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  const scale = useSceneScale();
+  const { scale, bleedTop, bleedBottom, hasVerticalBleed } = useSceneScale();
+  const bleedTopScene = hasVerticalBleed ? bleedTop / scale : 0;
+  const bleedBottomScene = hasVerticalBleed ? bleedBottom / scale : 0;
+
+  useEffect(() => {
+    if (!itemZoomed) return undefined;
+
+    const selector = photoZoomed ? '.room__cork-photo-btn' : '.room__stereo';
+    const element = document.querySelector(selector);
+    if (!element) return undefined;
+
+    const frame = requestAnimationFrame(() => {
+      const origin = getZoomOrigin(element);
+      if (origin) setZoomOrigin(origin);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [scale, itemZoomed, photoZoomed, stereoZoomed]);
 
   return (
     <div className="app">
@@ -172,7 +190,7 @@ export default function App() {
           }}
         >
           <div
-            className="scene-canvas"
+            className={`scene-canvas ${hasVerticalBleed ? 'scene-canvas--bleed' : ''}`}
             style={{
               width: SCENE_WIDTH,
               height: SCENE_HEIGHT,
@@ -180,12 +198,14 @@ export default function App() {
             }}
           >
             <div
-              className={`scene-camera ${itemZoomed ? 'scene-camera--item-zoom' : ''} ${hideCrt ? 'scene-camera--hide-crt' : ''}`}
+              className={`scene-camera ${itemZoomed ? 'scene-camera--item-zoom' : ''} ${hideCrt ? 'scene-camera--hide-crt' : ''} ${hasVerticalBleed ? 'scene-camera--vertical-bleed' : ''}`}
               style={{
                 transformOrigin: `${zoomOrigin.x}px ${zoomOrigin.y}px`,
                 '--item-zoom-translate-x': `${zoomOrigin.translateX}px`,
                 '--item-zoom-translate-y': `${zoomOrigin.translateY}px`,
                 '--item-zoom-scale': stereoZoomed ? 3.25 : 5,
+                '--scene-bleed-top': `${bleedTopScene}px`,
+                '--scene-bleed-bottom': `${bleedBottomScene}px`,
               }}
             >
               <Background

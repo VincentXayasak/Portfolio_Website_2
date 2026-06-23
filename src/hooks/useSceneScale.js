@@ -3,27 +3,71 @@ import { useEffect, useState } from 'react';
 export const SCENE_WIDTH = 1920;
 export const SCENE_HEIGHT = 1080;
 
+export function computeSceneScale(width, height) {
+  const widthScale = width / SCENE_WIDTH;
+  const heightScale = height / SCENE_HEIGHT;
+  const coverScale = Math.max(widthScale, heightScale);
+  const isNarrowPortrait = width < 768 && width < height;
+
+  if (isNarrowPortrait) {
+    // Show more of the room on portrait phones without shrinking the scene too much.
+    const fitWidthScale = widthScale;
+    return Math.max(fitWidthScale, coverScale * 0.5) || 0.1;
+  }
+
+  return coverScale > 0 ? coverScale : 0.1;
+}
+
+function getViewportSize() {
+  const viewport = window.visualViewport;
+  return {
+    width: viewport?.width ?? window.innerWidth,
+    height: viewport?.height ?? window.innerHeight,
+  };
+}
+
+export function computeSceneLayout(width, height) {
+  const scale = computeSceneScale(width, height);
+  const displayHeight = SCENE_HEIGHT * scale;
+  const gapY = Math.max(0, height - displayHeight);
+
+  return {
+    scale,
+    bleedTop: gapY / 2,
+    bleedBottom: gapY / 2,
+    hasVerticalBleed: gapY > 1,
+  };
+}
+
+const DEFAULT_LAYOUT = {
+  scale: 1,
+  bleedTop: 0,
+  bleedBottom: 0,
+  hasVerticalBleed: false,
+};
+
 export default function useSceneScale() {
-  const [scale, setScale] = useState(1);
+  const [layout, setLayout] = useState(DEFAULT_LAYOUT);
 
   useEffect(() => {
     const update = () => {
-      // Cover the viewport (like object-fit: cover) so no letterbox bars appear.
-      const next = Math.max(
-        window.innerWidth / SCENE_WIDTH,
-        window.innerHeight / SCENE_HEIGHT
-      );
-      setScale(next > 0 ? next : 0.1);
+      const { width, height } = getViewportSize();
+      setLayout(computeSceneLayout(width, height));
     };
 
     update();
     window.addEventListener('resize', update);
     document.addEventListener('visibilitychange', update);
+    window.visualViewport?.addEventListener('resize', update);
+    window.visualViewport?.addEventListener('scroll', update);
+
     return () => {
       window.removeEventListener('resize', update);
       document.removeEventListener('visibilitychange', update);
+      window.visualViewport?.removeEventListener('resize', update);
+      window.visualViewport?.removeEventListener('scroll', update);
     };
   }, []);
 
-  return scale;
+  return layout;
 }

@@ -174,6 +174,21 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
   }, [isPlaying]);
 
   useEffect(() => {
+    const clearNotes = () => {
+      setFloatingNotes([]);
+      setLiveNoteIds(new Set());
+      setDriftNoteIds(new Set());
+    };
+
+    window.addEventListener('resize', clearNotes);
+    window.visualViewport?.addEventListener('resize', clearNotes);
+    return () => {
+      window.removeEventListener('resize', clearNotes);
+      window.visualViewport?.removeEventListener('resize', clearNotes);
+    };
+  }, []);
+
+  useEffect(() => {
     if (skipTrackEffectRef.current) {
       skipTrackEffectRef.current = false;
       return;

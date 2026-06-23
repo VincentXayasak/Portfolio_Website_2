@@ -1,6 +1,9 @@
 .scanlines {
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--scene-bleed-top, 0px));
+  bottom: calc(-1 * var(--scene-bleed-bottom, 0px));
   z-index: 900;
   pointer-events: none;
 }
