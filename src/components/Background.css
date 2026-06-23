@@ -145,9 +145,41 @@
 
 .room__sticky {
   position: absolute;
+  padding: 0;
+  border: none;
   border-radius: 1px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
   opacity: 0.92;
+  cursor: pointer;
+  z-index: 1;
+  transition: transform var(--quick), box-shadow var(--quick), opacity var(--quick);
+}
+
+.room__sticky:hover {
+  opacity: 1;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.28);
+  z-index: 2;
+}
+
+.room__sticky:focus {
+  outline: none;
+}
+
+.room__sticky-label {
+  position: absolute;
+  inset: 22% 8% 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(5px, 0.62vw, 8px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-align: center;
+  color: #000;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
 }
 
 .room__sticky::after {

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Background from './components/Background';
+import ContactFormModal from './components/ContactFormModal';
 import CRTMonitor from './components/CRTMonitor';
 import Scanlines from './components/Scanlines';
 import Instructions from './components/Instructions';
@@ -24,6 +25,7 @@ export default function App() {
   });
   const [hideCrt, setHideCrt] = useState(false);
   const [tvOn, setTvOn] = useState(false);
+  const [contactFormColor, setContactFormColor] = useState(null);
   const zoomTimerRef = useRef(null);
 
   const clearZoomTimer = useCallback(() => {
@@ -88,6 +90,20 @@ export default function App() {
     }
   }, [clearZoomTimer]);
 
+  const closeContactForm = useCallback(() => {
+    setContactFormColor(null);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, []);
+
+  const openContactForm = useCallback((color) => {
+    setContactFormColor(color);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, []);
+
   const goHome = useCallback(() => {
     setPage('SELECT');
     setMenuIndex(0);
@@ -95,16 +111,23 @@ export default function App() {
     setPhotoZoomed(false);
     setStereoZoomed(false);
     setHideCrt(false);
+    setContactFormColor(null);
     clearZoomTimer();
   }, [clearZoomTimer]);
 
   const itemZoomed = photoZoomed || stereoZoomed;
+  const contactFormOpen = contactFormColor !== null;
 
   const handleKeyDown = useCallback(
     (event) => {
       if (!booted || !tvOn) return;
 
       if (event.key === 'Escape') {
+        if (contactFormOpen) {
+          closeContactForm();
+          return;
+        }
+
         if (itemZoomed) {
           closeItemZoom();
           return;
@@ -114,7 +137,7 @@ export default function App() {
         return;
       }
 
-      if (itemZoomed) return;
+      if (itemZoomed || contactFormOpen) return;
 
       if (page === 'SELECT') {
         if (event.key === 'ArrowLeft') {
@@ -128,7 +151,7 @@ export default function App() {
         }
       }
     },
-    [booted, closeItemZoom, goHome, itemZoomed, menuIndex, page, tvOn]
+    [booted, closeContactForm, closeItemZoom, contactFormOpen, goHome, itemZoomed, menuIndex, page, tvOn]
   );
 
   useEffect(() => {
@@ -172,6 +195,7 @@ export default function App() {
                 stereoZoomed={stereoZoomed}
                 onPhotoClick={openPhotoZoom}
                 onStereoZoom={openStereoZoom}
+                onStickyClick={openContactForm}
               />
               <CRTMonitor
                 booted={booted}
@@ -193,18 +217,21 @@ export default function App() {
       </div>
       {booted && (
         <div className="app-hud">
-          <Instructions page={page} itemZoomed={itemZoomed} />
-          {(page !== 'SELECT' || itemZoomed) && (
+          <Instructions page={page} itemZoomed={itemZoomed} contactFormOpen={contactFormOpen} />
+          {(page !== 'SELECT' || itemZoomed || contactFormOpen) && (
             <button
               type="button"
               className="hud-esc-btn"
-              onClick={itemZoomed ? closeItemZoom : goHome}
-              aria-label={itemZoomed ? 'Zoom out' : 'Back to home'}
+              onClick={contactFormOpen ? closeContactForm : itemZoomed ? closeItemZoom : goHome}
+              aria-label={contactFormOpen ? 'Close contact form' : itemZoomed ? 'Zoom out' : 'Back to home'}
             >
               ESC
             </button>
           )}
         </div>
+      )}
+      {contactFormOpen && (
+        <ContactFormModal color={contactFormColor} onClose={closeContactForm} />
       )}
       {!booted && (
         <div className="boot-overlay">

@@ -1,9 +1,14 @@
 import './Instructions.css';
 
-export default function Instructions({ page, itemZoomed = false }) {
+export default function Instructions({ page, itemZoomed = false, contactFormOpen = false }) {
   return (
     <div className="instructions">
-      {itemZoomed ? (
+      {contactFormOpen ? (
+        <div className="instructions__row">
+          <span className="instructions__key">ESC</span>
+          <span className="instructions__text">close form</span>
+        </div>
+      ) : itemZoomed ? (
         <div className="instructions__row">
           <span className="instructions__key">ESC</span>
           <span className="instructions__text">zoom out</span>

@@ -1,0 +1,162 @@
+.contact-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px))
+    max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  pointer-events: auto;
+  user-select: text;
+}
+
+.contact-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+}
+
+.contact-modal__panel {
+  position: relative;
+  width: min(100%, 520px);
+  max-height: min(92vh, 640px);
+  overflow: auto;
+  padding: 28px 28px 24px;
+  border: 2px solid rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  background: var(--sticky-color, #ffe066);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  color: #1a1a1a;
+}
+
+.contact-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.55);
+  border-radius: 4px;
+  transition: color var(--quick), background var(--quick);
+}
+
+.contact-modal__close:hover {
+  color: #000;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.contact-modal__title {
+  margin: 0 0 20px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #111;
+}
+
+.contact-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-modal__field {
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-modal__field--message {
+  align-items: start;
+}
+
+.contact-modal__label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.95rem;
+  color: #222;
+  white-space: nowrap;
+}
+
+.contact-modal__field input,
+.contact-modal__field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.92rem;
+  color: #111;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  user-select: text;
+}
+
+.contact-modal__field input:focus,
+.contact-modal__field textarea:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.25);
+  outline-offset: 1px;
+  background: #fff;
+}
+
+.contact-modal__field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.contact-modal__submit {
+  align-self: flex-end;
+  margin-top: 4px;
+  padding: 10px 18px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #111;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  transition: background var(--quick), transform var(--quick);
+}
+
+.contact-modal__submit:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.78);
+  transform: translateY(-1px);
+}
+
+.contact-modal__submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.contact-modal__status {
+  margin: 0;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.contact-modal__status--success {
+  color: #1f4d2c;
+}
+
+.contact-modal__status--error {
+  margin-top: -4px;
+  color: #7a1f1f;
+}
+
+@media (max-width: 520px) {
+  .contact-modal__field {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

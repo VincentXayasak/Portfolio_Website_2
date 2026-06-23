@@ -50,14 +50,22 @@ const BOOKS_BY_SHELF = [
 ];
 
 const STICKY_NOTES = [
-  { color: '#ffe066', rotate: -3, top: '18%', left: '12%', w: '28%', h: '22%' },
+  { color: '#ffe066', rotate: -3, top: '18%', left: '12%', w: '28%', h: '22%', label: 'CONTACT ME' },
   { color: '#ff9eb5', rotate: 2, top: '14%', left: '48%', w: '24%', h: '20%' },
   { color: '#9cf6b0', rotate: -1, top: '42%', left: '8%', w: '26%', h: '18%' },
   { color: '#a8d8ff', rotate: 4, top: '38%', left: '55%', w: '30%', h: '24%' },
   { color: '#ffd4a3', rotate: -2, top: '62%', left: '30%', w: '22%', h: '16%' },
 ];
 
-export default function Background({ page, zoomed, tvOn = true, stereoZoomed, onPhotoClick, onStereoZoom }) {
+export default function Background({
+  page,
+  zoomed,
+  tvOn = true,
+  stereoZoomed,
+  onPhotoClick,
+  onStereoZoom,
+  onStickyClick,
+}) {
   const photoBtnRef = useRef(null);
   const light = PAGE_LIGHT[page] || PAGE_LIGHT.SELECT;
   const sky = useTimeOfDay();
@@ -85,8 +93,9 @@ export default function Background({ page, zoomed, tvOn = true, stereoZoomed, on
         <div className="room__corkboard-frame" />
         <div className="room__corkboard-surface">
           {STICKY_NOTES.map((note, index) => (
-            <div
+            <button
               key={index}
+              type="button"
               className="room__sticky"
               style={{
                 background: note.color,
@@ -96,9 +105,12 @@ export default function Background({ page, zoomed, tvOn = true, stereoZoomed, on
                 height: note.h,
                 transform: `rotate(${note.rotate}deg)`,
               }}
+              onClick={() => onStickyClick?.(note.color)}
+              aria-label={note.label ? note.label : 'Open contact form'}
             >
               <span className="room__pin" />
-            </div>
+              {note.label && <span className="room__sticky-label">{note.label}</span>}
+            </button>
           ))}
           <button
             ref={photoBtnRef}
