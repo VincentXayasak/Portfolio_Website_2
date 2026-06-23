@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import './Background.css';
 import DeskClock from './DeskClock';
+import RoomDog from './RoomDog';
 import StereoPlayer from './StereoPlayer';
 import WindowScene from './WindowScene';
 import useTimeOfDay from '../hooks/useTimeOfDay';
@@ -88,6 +89,109 @@ export default function Background({
           background: `linear-gradient(135deg, ${sky.windowGlow} 0%, transparent 55%)`,
         }}
       />
+
+      <div className="room__basketball-hoop" aria-hidden="true">
+        <svg className="room__basketball-hoop-art" viewBox="0 0 160 160" aria-hidden="true">
+          <defs>
+            <linearGradient id="hoop-board-glass" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(255, 255, 255, 0.6)" />
+              <stop offset="50%" stopColor="rgba(220, 230, 240, 0.2)" />
+              <stop offset="100%" stopColor="rgba(200, 215, 225, 0.4)" />
+            </linearGradient>
+          </defs>
+
+          {/* Black Mounting Bracket Behind Glass */}
+          <g fill="#1a1a1a">
+            {/* Top horizontal bar */}
+            <rect x="25" y="45" width="110" height="6" />
+            {/* V bars */}
+            <path d="M25 45 L75 95 L85 95 L135 45 L125 45 L80 85 L35 45 Z" />
+            {/* Center vertical */}
+            <rect x="76" y="45" width="8" height="55" />
+            {/* Wall mount base */}
+            <rect x="65" y="80" width="30" height="40" rx="2" />
+            <rect x="60" y="85" width="40" height="8" />
+          </g>
+
+          {/* Backboard Glass */}
+          <rect x="10" y="20" width="140" height="90" fill="url(#hoop-board-glass)" stroke="rgba(255,255,255,0.8)" strokeWidth="2" />
+
+          {/* White Borders */}
+          <rect x="10" y="20" width="140" height="90" fill="none" stroke="#ffffff" strokeWidth="6" />
+          <rect x="50" y="45" width="60" height="45" fill="none" stroke="#ffffff" strokeWidth="5" />
+
+          {/* Corner pads (Black) */}
+          <path d="M10 30 L10 20 L20 20" fill="none" stroke="#111" strokeWidth="4" />
+          <path d="M140 20 L150 20 L150 30" fill="none" stroke="#111" strokeWidth="4" />
+          <path d="M10 100 L10 110 L20 110" fill="none" stroke="#111" strokeWidth="4" />
+          <path d="M140 110 L150 110 L150 100" fill="none" stroke="#111" strokeWidth="4" />
+
+          {/* Rim Bracket (Red/Orange) */}
+          <rect x="68" y="85" width="24" height="20" fill="#e63900" rx="2" />
+          <circle cx="74" cy="92" r="1.5" fill="#ddd" />
+          <circle cx="86" cy="92" r="1.5" fill="#ddd" />
+          <circle cx="74" cy="100" r="1.5" fill="#ddd" />
+          <circle cx="86" cy="100" r="1.5" fill="#ddd" />
+
+          {/* Rim */}
+          <ellipse cx="80" cy="105" rx="32" ry="10" fill="none" stroke="#ff4d1a" strokeWidth="4" />
+          <ellipse cx="80" cy="105" rx="32" ry="10" fill="none" stroke="#ff8566" strokeWidth="1" opacity="0.6" />
+
+          {/* Net */}
+          <g stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.95">
+            {/* Left-to-right diagonals */}
+            <path d="M50 108 L55 122 L60 136 L65 150 L70 160" />
+            <path d="M60 114 L65 122 L70 136 L75 150 L80 160" />
+            <path d="M70 115 L75 122 L80 136 L85 150 L90 160" />
+            <path d="M80 115 L85 122 L90 136 L95 150" />
+            <path d="M90 114 L95 122 L100 136" />
+            <path d="M100 108 L105 122" />
+
+            {/* Right-to-left diagonals */}
+            <path d="M110 108 L105 122 L100 136 L95 150 L90 160" />
+            <path d="M100 114 L95 122 L90 136 L85 150 L80 160" />
+            <path d="M90 115 L85 122 L80 136 L75 150 L70 160" />
+            <path d="M80 115 L75 122 L70 136 L65 150" />
+            <path d="M70 114 L65 122 L60 136" />
+            <path d="M60 108 L55 122" />
+
+            {/* Bottom loops */}
+            <path d="M70 160 Q 75 165 80 160 Q 85 165 90 160" />
+          </g>
+        </svg>
+      </div>
+
+      <div className="room__mini-basketball" aria-hidden="true">
+        <svg className="room__mini-basketball-art" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <radialGradient id="bball-shine" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stopColor="#ff9f59" />
+              <stop offset="40%" stopColor="#d96619" />
+              <stop offset="85%" stopColor="#993d00" />
+              <stop offset="100%" stopColor="#4a1a00" />
+            </radialGradient>
+            <pattern id="bball-pebble" width="2.5" height="2.5" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
+              <circle cx="1.25" cy="1.25" r="0.6" fill="rgba(0,0,0,0.18)" />
+              <circle cx="1.25" cy="1.25" r="0.3" fill="rgba(255,255,255,0.1)" />
+            </pattern>
+          </defs>
+          <circle cx="50" cy="50" r="48" fill="url(#bball-shine)" />
+          <circle cx="50" cy="50" r="48" fill="url(#bball-pebble)" />
+
+          <g fill="none" stroke="#221100" strokeWidth="2.5" strokeLinecap="round">
+            {/* Vertical */}
+            <path d="M50 2 L50 98" />
+            {/* Horizontal */}
+            <path d="M2 50 L98 50" />
+            {/* Left curve */}
+            <path d="M26 8.5 C 45 30 45 70 26 91.5" />
+            {/* Right curve */}
+            <path d="M74 8.5 C 55 30 55 70 74 91.5" />
+          </g>
+        </svg>
+      </div>
+
+      <RoomDog />
 
       <div className="room__corkboard">
         <div className="room__corkboard-frame" />

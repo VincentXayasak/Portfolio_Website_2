@@ -110,6 +110,66 @@
   transition: background 1.2s ease;
 }
 
+/* ── mini basketball hoop ── */
+.room__basketball-hoop {
+  position: absolute;
+  top: 9%;
+  right: -2.5%;
+  width: 12.5%;
+  z-index: 2;
+  overflow: visible;
+  filter: drop-shadow(2px 5px 10px rgba(0, 0, 0, 0.28));
+}
+
+.room__basketball-hoop-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.room__mini-basketball {
+  position: absolute;
+  right: 14.5%;
+  bottom: 11%;
+  width: 95px;
+  height: 95px;
+  transform: translateX(50%);
+  z-index: 6;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+}
+
+.room__mini-basketball::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 68%;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.35) 0%, transparent 72%);
+  z-index: -1;
+}
+
+.room__mini-basketball::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 68%;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.35) 0%, transparent 72%);
+  z-index: -1;
+}
+
+.room__mini-basketball-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 /* ── cork board ── */
 .room__corkboard {
   position: absolute;
