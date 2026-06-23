@@ -1,6 +1,9 @@
 import chipTesterImg from '../../internship_2025/chip_tester.png';
 import bridgePaper from '../../research/BRIDGE_Research_Paper.pdf';
 import bridgeImg from '../../research/BRIDGE_Project_Image.png';
+import reasoningPaper from '../../research/LLM_Reasoning_Research_Paper.pdf';
+import rpcPsfImg from '../../research/RPC_PSF_Project_Image.png';
+import sebastianImg from '../../research/sebastian.png';
 
 export const PROJECTS = [
   {
@@ -144,33 +147,135 @@ export const PROJECTS = [
     name: 'RPC & PSF',
     category: 'Research',
     period: 'Jan 2026 – May 2026',
-    subtitle: 'Measuring the Shape of Reasoning-Model Behavior',
+    subtitle:
+      'Measuring the Shape of Reasoning-Model Behavior with Path Consistency and Sampling Fingerprints · Research Assistant, UC Davis · ACL submission',
+    thumbnail: rpcPsfImg,
     summary:
-      'Multi-dimensional metrics that capture reasoning consistency and sampling behavior beyond Pass@1 accuracy.',
-    highlights: [
-      'Introduced Reasoning Path Consistency (RPC) across lexical, structural, and semantic axes (Spearman ρ=0.34 vs. humans).',
-      'Developed Parametric Sampling Fingerprints (PSF) fitting Pass@k trajectories (mean R²=0.96).',
-      'Evaluated 16 reasoning models on law, math, science, and multi-modal benchmarks.',
-      'Co-authored paper in submission to ACL.',
+      'Two complementary instruments for reasoning-model evaluation beyond Pass@1 — Reasoning Path Consistency (RPC) measures how similar a model’s reasoning paths are across repeated attempts, and Parametric Sampling Fingerprints (PSF) summarize how accuracy scales with additional samples.',
+    sections: [
+      {
+        title: 'Problem',
+        body:
+          'Reasoning models are compared almost entirely by a single accuracy number — typically Pass@1 — which collapses how a model produces an answer into whether its first attempt is correct. Two models with nearly identical Pass@1 can differ sharply in reasoning consistency across repeated attempts and in how their accuracy grows as samples accumulate, information that matters directly for deployment and inference-time compute.',
+      },
+      {
+        title: 'Approach',
+        body:
+          'We treat repeated sampling as a window into model behavior rather than only an accuracy-boosting technique. RPC scores reasoning traces along lexical (RPC-L), structural (RPC-S), and semantic (RPC-SEM) axes across k = 4 independent attempts per problem, with RPC-SEM validated against human judgments of whether two paths take “the same approach.” PSF fits a three-parameter saturation curve to each model’s Pass@k trajectory, yielding interpretable fingerprints for first-attempt accuracy (α), saturation ceiling (β), and approach rate (γ).',
+      },
+      {
+        title: 'Technical Contributions',
+        items: [
+          'Introduced RPC, a three-axis measure of reasoning-path consistency across repeated attempts; RPC-SEM correlates with human similarity judgments (Spearman ρ = 0.34, n = 50, p = 0.017).',
+          'Developed PSF, fitting Pass@k = α + (β − α)(1 − e^−γ(k−1)) to empirical sampling curves with mean R² = 0.96 over non-degenerate fits.',
+          'Evaluated 16 reasoning models across law (AGIEval LSAT-AR), mathematics (AIME 2025), graduate science (GPQA Diamond), and multi-modal reasoning (MMMU).',
+          'Showed RPC and PSF are statistically independent — reasoning consistency and sampling trajectory capture distinct dimensions of behavior, not two views of the same signal.',
+        ],
+      },
+      {
+        title: 'Impact',
+        items: [
+          'Models with matched Pass@1 diverge by up to 0.17 in semantic path consistency and up to 10 points at Pass@4 — leaderboard ties can hide sharply different behavior.',
+          'Demonstrated that capability is not a scalar: a model’s benchmark behavior has a measurable shape that accuracy alone conceals.',
+          'Provides a practical evaluation layer for comparing reasoning models on consistency and sampling efficiency beyond single-number leaderboards.',
+        ],
+      },
     ],
-    tech: ['Python', 'PyTorch', 'Model Evaluation', 'Reasoning Models', 'Statistics'],
+    tech: [
+      'Python',
+      'Model Evaluation',
+      'Reasoning Models',
+      'Pass@k',
+      'Chain-of-Thought',
+      'Statistics',
+      'Curve Fitting',
+    ],
+    benchmark: [
+      '16 models',
+      '4 benchmarks',
+      'k = 4 sampling',
+      'RPC 3-axis',
+      'PSF α β γ',
+    ],
+    links: [
+      {
+        label: 'Research Paper',
+        url: reasoningPaper,
+      },
+      {
+        label: 'Code Repository',
+        url: 'https://anonymous.4open.science/r/Submission-Code-43D9/README.md',
+      },
+    ],
     accent: '#a8d8ff',
   },
   {
-    id: 'portfolio-tv',
-    name: 'Portfolio TV',
-    category: 'Personal',
-    period: '2026',
-    subtitle: 'Retro CRT portfolio site',
+    id: 'lil-sebastian',
+    name: 'Lil Sebastian',
+    category: 'Hackathon',
+    period: 'May 2026',
+    subtitle: 'Long government meetings into 5-10 minute podcast episodes using LLMs · HackDavis 2026',
+    thumbnail: sebastianImg,
     summary:
-      'Interactive portfolio styled as a vintage TV room — channels for projects, socials, and music.',
-    highlights: [
-      'Built a responsive retro scene with CRT monitor navigation, ambient room details, and time-of-day lighting.',
-      'Channel-based UX with keyboard navigation and zoom transitions between menu and content views.',
-      'React + Vite stack with CSS-driven illustration for desk, bookshelf, corkboard, and peripherals.',
+      'End-to-end speech → LLM → multi-voice audio platform that turns hours-long local government meetings into 5–10 minute podcast episodes — so residents can stay informed on a walk or commute instead of sitting through raw meeting footage.',
+    sections: [
+      {
+        title: 'Problem',
+        body:
+          'City council, planning commission, and board meetings often run for hours, and raw recordings are hard for busy residents to follow. Many people want to understand budgets, zoning, votes, and public comment — but the format does not meet them where they are. Lil Sebastian closes that gap by converting official meeting video into short, listenable episodes grounded in primary-source audio.',
+      },
+      {
+        title: 'Approach',
+        body:
+          'We built a full media + AI orchestration pipeline in Python: ffmpeg extracts M4A from uploaded meeting video, Whisper transcribes long-form audio, Gemini rewrites the transcript into structured multi-character episodic dialogue (narrator + recurring co-hosts + guest), and ElevenLabs synthesizes distinct voices into a finished MP3. Episodes publish to Supabase Storage with metadata in Postgres; citizens browse and listen via an Expo / React Native app or a lightweight web client.',
+      },
+      {
+        title: 'Technical Contributions',
+        items: [
+          'Orchestrated `automate/run_pipeline.py` chaining ffmpeg conversion → Whisper transcription → Gemini script generation → ElevenLabs TTS → Supabase upload with queue processing.',
+          'Designed Gemini prompts with a fixed cast and episodic structure to balance civic fidelity (motions, votes, debate) with engaging tone across repeatable episodes.',
+          'Implemented multi-voice TTS assembly in `podcast_creator/` — segment stitching, pacing, and MP3 export with pydub across narrator and character voices.',
+          'Shipped dual client surfaces: Expo app with expo-av playback and AsyncStorage for recently played, plus an HTML/CSS/JS upload and discovery site for government workers.',
+        ],
+      },
+      {
+        title: 'Impact',
+        items: [
+          'Concept-to-listener arc: government worker uploads meeting video → processed episode → playable in mobile app or on the web.',
+          'Grounds civic content in real meeting audio rather than skipping primary sources — summarization constrained to transcript fidelity.',
+          'Demonstrates production ML concerns: long-form audio chunking, API cost/latency across STT + LLM + TTS, storage policies, and signed playback URLs.',
+        ],
+      },
     ],
-    tech: ['React', 'Vite', 'CSS', 'JavaScript'],
-    accent: '#c4a8ff',
+    tech: [
+      'Python',
+      'Whisper',
+      'Google Gemini',
+      'ElevenLabs',
+      'ffmpeg',
+      'Supabase',
+      'Expo',
+      'React Native',
+      'TypeScript',
+    ],
+    benchmark: [
+      'Speech → LLM → TTS',
+      'Multi-voice audio',
+      'Meeting → MP3',
+      'Mobile + Web',
+      'Supabase pipeline',
+    ],
+    links: [
+      {
+        label: 'GitHub Repository',
+        url: 'https://github.com/VincentXayasak/Lil_Sebastian',
+      },
+      {
+        label: 'Devpost',
+        url: 'https://devpost.com/software/lil-sebastion',
+      },
+    ],
+    accent: '#ffb4a2',
   },
 ];
 
