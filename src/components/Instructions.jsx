@@ -16,7 +16,12 @@ function useIsMobile() {
   return isMobile;
 }
 
-export default function Instructions({ page, itemZoomed = false, contactFormOpen = false }) {
+export default function Instructions({
+  page,
+  itemZoomed = false,
+  contactFormOpen = false,
+  isHorizontalScroll = false,
+}) {
   const isMobile = useIsMobile();
 
   return (
@@ -39,8 +44,10 @@ export default function Instructions({ page, itemZoomed = false, contactFormOpen
         </div>
       ) : page === 'SELECT' ? (
         <div className="instructions__row">
-          {isMobile ? (
-            <span className="instructions__text">Tap a channel on the TV</span>
+          {isMobile || isHorizontalScroll ? (
+            <span className="instructions__text">
+              {isHorizontalScroll ? 'Swipe sideways to explore · Tap a channel on the TV' : 'Tap a channel on the TV'}
+            </span>
           ) : (
             <>
               <span className="instructions__key">←</span>

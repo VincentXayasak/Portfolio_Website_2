@@ -14,13 +14,23 @@
   overflow: hidden;
 }
 
-.scene-scaler {
-  position: relative;
+.scene-viewport--pan {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.scene-viewport--pan .scene-scaler {
   flex-shrink: 0;
 }
 
-.scene-scaler--vertical-bleed {
-  height: 100%;
+.scene-scaler {
+  position: relative;
+  flex-shrink: 0;
 }
 
 .scene-canvas {
@@ -29,10 +39,6 @@
   left: 0;
   transform-origin: top left;
   overflow: hidden;
-}
-
-.scene-canvas--bleed {
-  overflow: visible;
 }
 
 .scene-camera {

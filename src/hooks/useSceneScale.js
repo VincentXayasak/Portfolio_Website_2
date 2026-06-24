@@ -3,20 +3,6 @@ import { useEffect, useState } from 'react';
 export const SCENE_WIDTH = 1920;
 export const SCENE_HEIGHT = 1080;
 
-export function computeSceneScale(width, height) {
-  const widthScale = width / SCENE_WIDTH;
-  const heightScale = height / SCENE_HEIGHT;
-  const coverScale = Math.max(widthScale, heightScale);
-  const isPortrait = width < height;
-
-  if (isPortrait) {
-    // Fit full scene width so side elements (corkboard, stereo) stay on screen.
-    return widthScale > 0 ? widthScale : 0.1;
-  }
-
-  return coverScale > 0 ? coverScale : 0.1;
-}
-
 function getViewportSize() {
   const viewport = window.visualViewport;
   return {
@@ -26,23 +12,29 @@ function getViewportSize() {
 }
 
 export function computeSceneLayout(width, height) {
-  const scale = computeSceneScale(width, height);
-  const displayHeight = SCENE_HEIGHT * scale;
-  const gapY = Math.max(0, height - displayHeight);
+  const widthScale = width / SCENE_WIDTH;
+  const heightScale = height / SCENE_HEIGHT;
+  const coverScale = Math.max(widthScale, heightScale);
+  const displayWidthAtHeightFit = SCENE_WIDTH * heightScale;
+  const isHorizontalScroll = displayWidthAtHeightFit > width + 1;
+
+  const scale = isHorizontalScroll
+    ? heightScale > 0
+      ? heightScale
+      : 0.1
+    : coverScale > 0
+      ? coverScale
+      : 0.1;
 
   return {
     scale,
-    bleedTop: gapY / 2,
-    bleedBottom: gapY / 2,
-    hasVerticalBleed: gapY > 1,
+    isHorizontalScroll,
   };
 }
 
 const DEFAULT_LAYOUT = {
   scale: 1,
-  bleedTop: 0,
-  bleedBottom: 0,
-  hasVerticalBleed: false,
+  isHorizontalScroll: false,
 };
 
 export default function useSceneScale() {

@@ -28,6 +28,7 @@ export default function App() {
   const [tvOn, setTvOn] = useState(false);
   const [contactFormColor, setContactFormColor] = useState(null);
   const zoomTimerRef = useRef(null);
+  const viewportRef = useRef(null);
 
   const clearZoomTimer = useCallback(() => {
     if (zoomTimerRef.current) {
@@ -160,9 +161,23 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  const { scale, bleedTop, bleedBottom, hasVerticalBleed } = useSceneScale();
-  const bleedTopScene = hasVerticalBleed ? bleedTop / scale : 0;
-  const bleedBottomScene = hasVerticalBleed ? bleedBottom / scale : 0;
+  const { scale, isHorizontalScroll } = useSceneScale();
+
+  useEffect(() => {
+    if (!isHorizontalScroll) return undefined;
+
+    const viewport = viewportRef.current;
+    if (!viewport) return undefined;
+
+    const centerOnTv = () => {
+      const displayWidth = SCENE_WIDTH * scale;
+      const maxScroll = Math.max(0, displayWidth - viewport.clientWidth);
+      viewport.scrollLeft = maxScroll / 2;
+    };
+
+    const frame = requestAnimationFrame(centerOnTv);
+    return () => cancelAnimationFrame(frame);
+  }, [isHorizontalScroll, scale]);
 
   useEffect(() => {
     if (!itemZoomed) return undefined;
@@ -177,36 +192,36 @@ export default function App() {
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [scale, itemZoomed, photoZoomed, stereoZoomed]);
+  }, [scale, itemZoomed, photoZoomed, stereoZoomed, isHorizontalScroll]);
 
   return (
     <div className="app">
-      <div className="scene-viewport">
+      <div
+        ref={viewportRef}
+        className={`scene-viewport ${isHorizontalScroll ? 'scene-viewport--pan' : ''}`}
+      >
         <div
-          className={`scene-scaler ${hasVerticalBleed ? 'scene-scaler--vertical-bleed' : ''}`}
+          className="scene-scaler"
           style={{
             width: SCENE_WIDTH * scale,
-            height: hasVerticalBleed ? '100%' : SCENE_HEIGHT * scale,
+            height: SCENE_HEIGHT * scale,
           }}
         >
           <div
-            className={`scene-canvas ${hasVerticalBleed ? 'scene-canvas--bleed' : ''}`}
+            className="scene-canvas"
             style={{
               width: SCENE_WIDTH,
               height: SCENE_HEIGHT,
-              top: hasVerticalBleed ? `calc(50% - ${(SCENE_HEIGHT * scale) / 2}px)` : 0,
               transform: `scale(${scale})`,
             }}
           >
             <div
-              className={`scene-camera ${itemZoomed ? 'scene-camera--item-zoom' : ''} ${hideCrt ? 'scene-camera--hide-crt' : ''} ${hasVerticalBleed ? 'scene-camera--vertical-bleed' : ''}`}
+              className={`scene-camera ${itemZoomed ? 'scene-camera--item-zoom' : ''} ${hideCrt ? 'scene-camera--hide-crt' : ''}`}
               style={{
                 transformOrigin: `${zoomOrigin.x}px ${zoomOrigin.y}px`,
                 '--item-zoom-translate-x': `${zoomOrigin.translateX}px`,
                 '--item-zoom-translate-y': `${zoomOrigin.translateY}px`,
                 '--item-zoom-scale': stereoZoomed ? 3.25 : 5,
-                '--scene-bleed-top': `${bleedTopScene}px`,
-                '--scene-bleed-bottom': `${bleedBottomScene}px`,
               }}
             >
               <Background
@@ -241,7 +256,12 @@ export default function App() {
           <p className="copyright-notice" aria-label="Copyright notice">
             © 2026 Vincent Xayasak. All rights reserved.
           </p>
-          <Instructions page={page} itemZoomed={itemZoomed} contactFormOpen={contactFormOpen} />
+          <Instructions
+            page={page}
+            itemZoomed={itemZoomed}
+            contactFormOpen={contactFormOpen}
+            isHorizontalScroll={isHorizontalScroll}
+          />
           {(page !== 'SELECT' || itemZoomed || contactFormOpen) && (
             <button
               type="button"

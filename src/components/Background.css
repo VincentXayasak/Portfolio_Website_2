@@ -6,10 +6,6 @@
   transform-origin: 50% 77%;
 }
 
-.scene-camera--vertical-bleed .room {
-  overflow: visible;
-}
-
 .room--zoomed {
   transform: scale(1.06);
 }
@@ -17,10 +13,7 @@
 /* ── walls & floor ── */
 .room__wall {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(-1 * var(--scene-bleed-top, 0px));
-  height: calc(100% + var(--scene-bleed-top, 0px));
+  inset: 0;
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 248, 235, 0.08), transparent),
     repeating-linear-gradient(
@@ -34,9 +27,9 @@
 .room__floor {
   position: absolute;
   left: 0;
-  bottom: calc(-1 * var(--scene-bleed-bottom, 0px));
+  bottom: 0;
   width: 100%;
-  height: calc(22% + var(--scene-bleed-bottom, 0px));
+  height: 22%;
   background:
     repeating-linear-gradient(
       90deg,
@@ -595,10 +588,7 @@
 
 .room__vignette {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(-1 * var(--scene-bleed-top, 0px));
-  bottom: calc(-1 * var(--scene-bleed-bottom, 0px));
+  inset: 0;
   background: radial-gradient(circle at center, transparent 35%, rgba(40, 30, 20, 0.55) 100%);
   pointer-events: none;
   z-index: 7;
