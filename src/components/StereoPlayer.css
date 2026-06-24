@@ -86,6 +86,38 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.room__stereo-warning {
+  position: absolute;
+  right: 3%;
+  bottom: 34%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 26%;
+  padding: 3% 2%;
+  background: linear-gradient(165deg, #ffe033 0%, #ffc800 55%, #f0b800 100%);
+  border: 1.5px solid #1a1a1a;
+  border-radius: 1px;
+  box-shadow:
+    1px 2px 5px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transform: rotate(11deg);
+  pointer-events: none;
+}
+
+.room__stereo-warning span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(4px, 0.52vw, 7px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  color: #111;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
 .room__speaker {
   flex: 1;
   position: relative;

@@ -363,6 +363,10 @@ export default function StereoPlayer({ stereoZoomed, onStereoZoom }) {
           </div>
         </div>
         <div className="room__stereo-shelf" />
+        <div className="room__stereo-warning" aria-hidden="true">
+          <span>WARNING:</span>
+          <span>MAY BE LOUD</span>
+        </div>
       </div>
     </>
   );
